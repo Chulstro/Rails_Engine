@@ -8,8 +8,6 @@ RSpec.describe "Items API", type: :request do
 
     get '/api/v1/items'
 
-    expect(response).to be_successful
-
     items = JSON.parse(response.body)
 
     expect(items["data"].size).to eq(3)
@@ -18,7 +16,15 @@ RSpec.describe "Items API", type: :request do
     expect(items["data"][2]["id"]).to eq("#{item_3.id}")
   end
 
-  # it "can return a single item" do
-  #   item_1 = create(:item)
-  # end
+  it "can return a single item" do
+    item_1 = create(:item)
+
+    get "/api/v1/items/#{item_1.id}"
+
+    item = JSON.parse(response.body)
+
+    expect(item["data"]["attributes"]["name"]).to eq(item_1.name)
+    expect(item["data"]["attributes"]["description"]).to eq(item_1.description)
+    expect(item["data"]["attributes"]["unit_price"]).to eq("#{item_1.unit_price}")
+  end
 end
