@@ -38,6 +38,8 @@ group :development, :test do
   gem 'launchy'
   gem 'shoulda-matchers'
   gem 'factory_bot_rails'
+  gem 'fast_jsonapi'
+  gem 'faker'
 end
 
 group :development do
