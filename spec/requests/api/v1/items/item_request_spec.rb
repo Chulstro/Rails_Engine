@@ -30,13 +30,19 @@ RSpec.describe "Items API", type: :request do
     expect(item["data"]["relationships"]["merchant"]["data"]["id"]).to eq("#{item_1.merchant.id}")
   end
 
-  # it "can create a new item" do
-  #   merchant = create(:merchant)
-  #   item_params = {name: "Cookie", description: "Yummy", unit_price: 23.78, merchant: merchant}
-  #   post "/api/v1/items", params: JSON.generate({item: item_params}), headers: headers
-  #
-  #   item = JSON.parse(response.body)
-  #
-  #   binding.pry
-  # end
+  it "can create a new item" do
+    merchant = create(:merchant)
+    merchant.items.create(name: "Jeans", description: "Not Tasty", unit_price: 34.76, merchant: merchant)
+    item_params = {name: "Cookie", description: "Yummy", unit_price: 23.78, merchant_id: merchant.id}
+    post "/api/v1/items", params: {item: JSON.generate(item_params)}
+
+    item = JSON.parse(response.body)
+    item_object = Item.last
+
+    expect(item['data']['id']).to eq("#{item_object.id}")
+    expect(item['data']['attributes']['name']).to eq(item_object.name)
+    expect(item['data']['attributes']['description']).to eq(item_object.description)
+    expect(item['data']['attributes']['unit_price']).to eq(item_object.unit_price)
+    expect(item['data']['relationships']['merchant']['data']['id']).to eq("#{merchant.id}")
+  end
 end
