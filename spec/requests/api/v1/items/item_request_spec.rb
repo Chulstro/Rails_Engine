@@ -68,11 +68,7 @@ RSpec.describe "Items API", type: :request do
 
     delete "/api/v1/items/#{item_1.id}"
 
-    item =JSON.parse(response.body)
-
-    expect(item['data']['id']).to eq("#{item_1.id}")
-    expect(item['data']['attributes']['name']).to eq(item_1[:name])
-    expect(item['data']['attributes']['description']).to eq(item_1[:description])
-    expect(item['data']['attributes']['unit_price']).to eq(item_1[:unit_price])
+    expect(response.body).to be_empty
+    expect(response.status).to eq(204)
   end
 end
