@@ -62,12 +62,17 @@ RSpec.describe "Items API", type: :request do
     expect(item['data']['attributes']['unit_price']).to eq(item_params[:unit_price])
   end
 
-  # it "can delete and item" do
-  #   merchant = create(:merchant)
-  #   item_1 = merchant.items.create(name: "Jeans", description: "Not Tasty", unit_price: 34.76, merchant: merchant)
-  #
-  #   delete "/api/vi/items/#{item_1.id}"
-  #
-  #   item =
-  # end
+  it "can delete and item" do
+    merchant = create(:merchant)
+    item_1 = merchant.items.create(name: "Jeans", description: "Not Tasty", unit_price: 34.76, merchant: merchant)
+
+    delete "/api/v1/items/#{item_1.id}"
+
+    item =JSON.parse(response.body)
+
+    expect(item['data']['id']).to eq("#{item_1.id}")
+    expect(item['data']['attributes']['name']).to eq(item_1[:name])
+    expect(item['data']['attributes']['description']).to eq(item_1[:description])
+    expect(item['data']['attributes']['unit_price']).to eq(item_1[:unit_price])
+  end
 end

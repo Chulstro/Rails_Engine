@@ -7,6 +7,7 @@ Rails.application.routes.draw do
         get '/:id', to: 'items#show'
         post '/', to: 'items#create'
         patch '/:id', to: 'items#update'
+        delete '/:id', to: 'items#destroy'
       end
     end
   end
