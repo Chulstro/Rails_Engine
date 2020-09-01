@@ -45,4 +45,20 @@ RSpec.describe "Items API", type: :request do
     expect(item['data']['attributes']['unit_price']).to eq(item_object.unit_price)
     expect(item['data']['relationships']['merchant']['data']['id']).to eq("#{merchant.id}")
   end
+
+  it "can update an item" do
+    merchant = create(:merchant)
+    item_1 = merchant.items.create(name: "Jeans", description: "Not Tasty", unit_price: 34.76, merchant: merchant)
+    item_params = {name: "Cookie", description: "Yummy", unit_price: 23.78, merchant_id: merchant.id}
+
+    patch "/api/v1/items/#{item_1.id}", params: {item: JSON.generate(item_params)}
+
+    item = JSON.parse(response.body)
+    item_object = Item.find(item_1.id)
+
+    expect(item['data']['id']).to eq("#{item_object.id}")
+    expect(item['data']['attributes']['name']).to eq(item_params[:name])
+    expect(item['data']['attributes']['description']).to eq(item_params[:description])
+    expect(item['data']['attributes']['unit_price']).to eq(item_params[:unit_price])
+  end
 end
