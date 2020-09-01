@@ -34,7 +34,7 @@ RSpec.describe "Items API", type: :request do
     merchant = create(:merchant)
     merchant.items.create(name: "Jeans", description: "Not Tasty", unit_price: 34.76, merchant: merchant)
     item_params = {name: "Cookie", description: "Yummy", unit_price: 23.78, merchant_id: merchant.id}
-    post "/api/v1/items", params: {item: JSON.generate(item_params)}
+    post "/api/v1/items", params: item_params
 
     item = JSON.parse(response.body)
     item_object = Item.last
@@ -51,7 +51,7 @@ RSpec.describe "Items API", type: :request do
     item_1 = merchant.items.create(name: "Jeans", description: "Not Tasty", unit_price: 34.76, merchant: merchant)
     item_params = {name: "Cookie", description: "Yummy", unit_price: 23.78, merchant_id: merchant.id}
 
-    patch "/api/v1/items/#{item_1.id}", params: {item: JSON.generate(item_params)}
+    patch "/api/v1/items/#{item_1.id}", params: item_params
 
     item = JSON.parse(response.body)
     item_object = Item.find(item_1.id)
@@ -61,4 +61,13 @@ RSpec.describe "Items API", type: :request do
     expect(item['data']['attributes']['description']).to eq(item_params[:description])
     expect(item['data']['attributes']['unit_price']).to eq(item_params[:unit_price])
   end
+
+  # it "can delete and item" do
+  #   merchant = create(:merchant)
+  #   item_1 = merchant.items.create(name: "Jeans", description: "Not Tasty", unit_price: 34.76, merchant: merchant)
+  #
+  #   delete "/api/vi/items/#{item_1.id}"
+  #
+  #   item =
+  # end
 end
