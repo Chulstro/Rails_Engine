@@ -6,6 +6,7 @@ Rails.application.routes.draw do
         get '/', to: 'items#index'
         get '/:id', to: 'items#show'
         post '/', to: 'items#create'
+        patch '/:id', to: 'items#update'
       end
     end
   end
