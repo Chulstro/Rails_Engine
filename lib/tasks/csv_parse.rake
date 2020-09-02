@@ -18,9 +18,6 @@ task build_data: :environment do
   Merchant.destroy_all
   Customer.destroy_all
 
-  ActiveRecord::Base.connection.tables.each do |table|
-    ActiveRecord::Base.connection.reset_pk_sequence!(table)
-  end
 
   puts 'Building new data'
 
@@ -33,7 +30,8 @@ task build_data: :environment do
   end
 
   CSV.foreach(item_data, headers: true) do |row|
-    Item.create(name: row['name'],
+    Item.create(id: row['id'],
+                name: row['name'],
                 description: row['description'],
                 merchant_id: row['merchant_id'],
                 created_at: row['created_at'],
@@ -46,7 +44,8 @@ task build_data: :environment do
   end
 
   CSV.foreach(invoice_item_data, headers: true) do |row|
-     InvoiceItem.create(quantity: row['quantity'],
+     InvoiceItem.create(id: row['id'],
+                  quantity: row['quantity'],
                   item_id: row['item_id'],
                   invoice_id: row['invoice_id'],
                   created_at: row['created_at'],
@@ -56,6 +55,10 @@ task build_data: :environment do
 
   CSV.foreach(transaction_data, headers: true) do |row|
     Transaction.create(row.to_hash)
+  end
+
+  ActiveRecord::Base.connection.tables.each do |table|
+    ActiveRecord::Base.connection.reset_pk_sequence!(table)
   end
 
   puts "Database Complete"

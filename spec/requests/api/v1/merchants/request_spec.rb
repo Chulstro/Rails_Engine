@@ -50,4 +50,13 @@ RSpec.describe "Merchants API", type: :request do
     expect(merchant['data']['id']).to eq("#{merchant_object.id}")
     expect(merchant['data']['attributes']['name']).to eq(merchant_params[:name])
   end
+
+  it "can delete and merchant" do
+    merchant_1 = create(:merchant)
+
+    delete "/api/v1/merchants/#{merchant_1.id}"
+
+    expect(response.body).to be_empty
+    expect(response.status).to eq(204)
+  end
 end
