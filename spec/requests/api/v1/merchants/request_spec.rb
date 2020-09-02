@@ -25,4 +25,16 @@ RSpec.describe "Merchants API", type: :request do
 
     expect(merchant["data"]["attributes"]["name"]).to eq(merchant_1.name)
   end
+
+  it "can create a new merchant" do
+    merchant = create(:merchant)
+    merchant_params = {name: "Cookie"}
+    post "/api/v1/merchants", params: merchant_params
+
+    merchant = JSON.parse(response.body)
+    merchant_object = Merchant.last
+
+    expect(merchant['data']['id']).to eq("#{merchant_object.id}")
+    expect(merchant['data']['attributes']['name']).to eq(merchant_object.name)
+  end
 end
