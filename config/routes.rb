@@ -5,16 +5,18 @@ Rails.application.routes.draw do
 
       namespace :items do
         get '/', to: 'items#index'
-        get '/:id', to: 'items#show'
         post '/', to: 'items#create'
+        get '/find', to: 'find#show'
+        get '/:id', to: 'items#show'
         patch '/:id', to: 'items#update'
         delete '/:id', to: 'items#destroy'
       end
 
       namespace :merchants do
         get '/', to: 'merchants#index'
-        get '/:id', to: 'merchants#show'
         post '/', to: 'merchants#create'
+        get '/find', to: 'find#show'
+        get '/:id', to: 'merchants#show'
         patch '/:id', to: 'merchants#update'
         delete '/:id', to: 'merchants#destroy'
       end
