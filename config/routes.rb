@@ -13,6 +13,7 @@ Rails.application.routes.draw do
 
       namespace :merchants do
         get '/', to: 'merchants#index'
+        get '/:id', to: 'merchants#show'
       end
     end
   end

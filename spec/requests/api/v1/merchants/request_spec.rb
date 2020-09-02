@@ -15,4 +15,14 @@ RSpec.describe "Merchants API", type: :request do
     expect(merchants["data"][1]["id"]).to eq("#{merchant_2.id}")
     expect(merchants["data"][2]["id"]).to eq("#{merchant_3.id}")
   end
+
+  it "can return a single merchant" do
+    merchant_1 = create(:merchant)
+
+    get "/api/v1/merchants/#{merchant_1.id}"
+
+    merchant = JSON.parse(response.body)
+
+    expect(merchant["data"]["attributes"]["name"]).to eq(merchant_1.name)
+  end
 end
