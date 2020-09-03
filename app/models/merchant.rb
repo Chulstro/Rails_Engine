@@ -5,11 +5,11 @@ class Merchant < ApplicationRecord
   has_many :transactions, through: :invoices
 
   def self.name_search(name)
-    where("LOWER(name) like ?", "%#{name}%").first
+    where("LOWER(name) like ?", "%#{name.downcase}%").first
   end
 
   def self.all_name_search(name)
-    where("LOWER(name) like ?", "%#{name}%")
+    where("LOWER(name) like ?", "%#{name.downcase}%")
   end
 
   def self.most_revenue(limit)
