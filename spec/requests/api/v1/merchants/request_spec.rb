@@ -59,4 +59,16 @@ RSpec.describe "Merchants API", type: :request do
     expect(response.body).to be_empty
     expect(response.status).to eq(204)
   end
+
+  it 'can get merchants items back' do
+    merchant_1 = create(:merchant)
+    item_1 = merchant_1.items.create(name: "Pancake", description: "Good", unit_price: 56.78)
+    item_2 = merchant_1.items.create(name: "Waffle", description: "Better", unit_price: 987.54)
+
+    get "/api/v1/merchants/#{merchant_1.id}/items"
+    items = JSON.parse(response.body)
+
+    expect(items['data'][0]['id']).to eq("#{item_1.id}")
+    expect(items['data'][1]['id']).to eq("#{item_2.id}")
+  end
 end
