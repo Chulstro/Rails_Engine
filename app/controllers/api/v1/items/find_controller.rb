@@ -1,8 +1,6 @@
 class Api::V1::Items::FindController < ApplicationController
   def show
-    key = item_params.keys.first
-    value = item_params.values.first
-    render json: ItemSerializer.new(Item.find_by(key => value))
+    render json: ItemSerializer.new(Item.find_and_deliver(item_params))
   end
 
   private
