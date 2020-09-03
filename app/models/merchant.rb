@@ -6,4 +6,8 @@ class Merchant < ApplicationRecord
   def self.name_search(name)
     where("LOWER(name) like ?", "%#{name}%").first
   end
+
+  def self.all_name_search(name)
+    where("LOWER(name) like ?", "%#{name}%")
+  end
 end

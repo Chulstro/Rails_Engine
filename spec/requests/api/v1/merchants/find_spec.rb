@@ -18,4 +18,18 @@ RSpec.describe "When sending an merchants finder request" do
     expect(merchant2['data']['id']).to eq("#{merchant_1.id}")
     expect(merchant2['data']['attributes']['name']).to eq("#{merchant_1.name}")
   end
+
+  it 'finds multiple matches to its parameters' do
+    merchant_1 = Merchant.create(name: "Quasimodo")
+    Merchant.create(name: "Banihana")
+    merchant_3 = Merchant.create(name: "Modelo")
+
+    get "/api/v1/merchants/find_all?name=MOD"
+    merchant = JSON.parse(response.body)
+
+    expect(merchant['data'][0]['id']).to eq("#{merchant_1.id}")
+    expect(merchant['data'][0]['attributes']['name']).to eq("#{merchant_1.name}")
+    expect(merchant['data'][1]['id']).to eq("#{merchant_3.id}")
+    expect(merchant['data'][1]['attributes']['name']).to eq("#{merchant_3.name}")
+  end
 end

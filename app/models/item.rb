@@ -14,4 +14,15 @@ class Item < ApplicationRecord
       find_by(unit_price: value)
     end
   end
+
+  def self.find_and_deliver_all(data_hash)
+    value = data_hash.values[0]
+    if data_hash.keys[0] == "name"
+      where("LOWER(name) like ?", "%#{value.downcase}%")
+    elsif data_hash.keys[0] == "description"
+      where("LOWER(description) like ?", "%#{value.downcase}%")
+    elsif data_hash.keys[0] == "unit_price"
+      where(unit_price: value)
+    end
+  end
 end
