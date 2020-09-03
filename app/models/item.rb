@@ -23,6 +23,6 @@ class Item < ApplicationRecord
       where("LOWER(description) like ?", "%#{value.downcase}%")
     elsif data_hash.keys[0] == "unit_price"
       where(unit_price: value)
-    end
+    end 
   end
 end
